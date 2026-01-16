@@ -13,6 +13,7 @@ int main()
     cout << "$ ";
     string input;
     getline(cin, input);
+    if(input == "exit") break;
     cout << input << ": command not found \n";
   }
 }
