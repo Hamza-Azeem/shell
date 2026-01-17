@@ -8,6 +8,9 @@
 
 set -e # Exit early if any commands fail
 
+# Set VCPKG_ROOT if not set
+export VCPKG_ROOT=${VCPKG_ROOT:-$HOME/vcpkg}
+
 # Copied from .codecrafters/compile.sh
 #
 # - Edit this to change how your program compiles locally

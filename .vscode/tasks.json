@@ -7,7 +7,8 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
-                "${file}",
+                "main.cpp",
+                "source/type.cpp",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}",
                 "-lstdc++"

@@ -1,7 +1,10 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "headers/constants.hpp"
+#include "headers/constants.h"
+#include <cstdlib>
+#include "headers/type.h"
+
 using namespace std;
 
 vector<string> parseInput(string input)
@@ -33,6 +36,7 @@ int main()
 
   cout << unitbuf;
   cerr << unitbuf;
+  const string PATH = getenv("PATH");
   while (true)
   {
     cout << "$ ";
@@ -46,11 +50,14 @@ int main()
     }
     else if (command == "type")
     {
-      int c = BUILTIN_COMMANDS.count(parsedLine[1]);
-      if(c > 0){
-        cout << parsedLine[1] << " is a shell builtin\n";
-      }else{
-        cout << parsedLine[1] << ": " << "not found\n";
+      string result = checkType(PATH, parsedLine[1]);
+      if (result != "")
+      {
+        cout << parsedLine[1] << " is " << result << "\n";
+      }
+      else
+      {
+        cout << parsedLine[1] << ": not found\n";
       }
     }
     else if (command == "exit")
