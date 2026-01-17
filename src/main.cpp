@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "headers/constants.hpp"
 using namespace std;
 
 vector<string> parseInput(string input)
@@ -43,6 +44,15 @@ int main()
     {
       cout << parsedLine[1] << "\n";
     }
+    else if (command == "type")
+    {
+      int c = BUILTIN_COMMANDS.count(parsedLine[1]);
+      if(c > 0){
+        cout << parsedLine[1] << " is a shell builtin\n";
+      }else{
+        cout << parsedLine[1] << ": " << "not found\n";
+      }
+    }
     else if (command == "exit")
     {
       break;
@@ -53,4 +63,3 @@ int main()
     }
   }
 }
-
