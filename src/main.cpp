@@ -4,30 +4,44 @@
 #include "headers/constants.h"
 #include <cstdlib>
 #include "headers/type.h"
+#include <boost/process.hpp>
 
 using namespace std;
+namespace bp = boost::process;
 
 vector<string> parseInput(string input)
 {
   vector<string> result;
-  string command = "";
-  int index = 0;
+  string word = "";
+  int count = 0;
   for (int i = 0; i < input.size(); i++)
   {
-    if (input[i] == ' ')
+    if (input[i] == ' ' && count == 0)
     {
-      result.push_back(command);
-      index = i + 1;
-      break;
+      result.push_back(word);
+      word = "";
     }
-    command += input[i];
+    else if (input[i] == '"')
+    {
+      word += '"';
+      count++;
+      if (count == 2)
+      {
+        result.push_back(word);
+        word = "";
+        count = 0;
+      }
+    }
+    else
+    {
+      word += input[i];
+    }
   }
-  string rest = "";
-  for (int i = index; i < input.size(); i++)
+  if (!word.empty())
   {
-    rest += input[i];
+    result.push_back(word);
   }
-  result.push_back(rest);
+
   return result;
 }
 
@@ -66,7 +80,17 @@ int main()
     }
     else
     {
-      cout << input << ": command not found \n";
+      string result = checkType(PATH, parsedLine[0]);
+      if (result != "" && result != "a shell builtin")
+      {
+        vector<string> args;
+        args.assign(parsedLine.begin() + 1, parsedLine.end());
+        // cout << args.size() << endl;
+        // for (int i = 0; i < args.size(); i++)
+        //   cout << args[i] << " ";
+        // cout << endl;
+        bp::system(result, args);
+      }
     }
   }
 }
