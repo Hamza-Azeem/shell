@@ -4,10 +4,9 @@
 #include "headers/constants.h"
 #include <cstdlib>
 #include "headers/type.h"
-#include <boost/process.hpp>
-
+#include <unistd.h>
+#include <sys/wait.h>
 using namespace std;
-namespace bp = boost::process;
 
 vector<string> parseInput(string input)
 {
@@ -83,13 +82,33 @@ int main()
       string result = checkType(PATH, parsedLine[0]);
       if (result != "" && result != "a shell builtin")
       {
-        vector<string> args;
-        args.assign(parsedLine.begin() + 1, parsedLine.end());
-        // cout << args.size() << endl;
-        // for (int i = 0; i < args.size(); i++)
-        //   cout << args[i] << " ";
-        // cout << endl;
-        bp::system(result, args);
+        pid_t pid = fork();
+        if (pid == -1)
+        {
+          perror("fork failed");
+        }
+        else if (pid == 0)
+        {
+          vector<char *> c_args;
+          c_args.push_back(const_cast<char *>(result.c_str()));
+          if (parsedLine.size() > 1)
+          {
+            for (auto it = parsedLine.begin() + 1; it != parsedLine.end(); ++it)
+            {
+              c_args.push_back(const_cast<char *>(it->c_str()));
+            }
+          }
+          c_args.push_back(nullptr);
+          execv(result.c_str(), c_args.data());
+          // If we get here, it failed
+          perror("execv failed");
+          _exit(1);
+        }
+        else
+        {
+          int status;
+          waitpid(pid, &status, 0);
+        }
       }
     }
   }
