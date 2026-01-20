@@ -90,7 +90,7 @@ int main()
         else if (pid == 0)
         {
           vector<char *> c_args;
-          c_args.push_back(const_cast<char *>(result.c_str()));
+          c_args.push_back(const_cast<char *>(parsedLine[0].c_str()));
           if (parsedLine.size() > 1)
           {
             for (auto it = parsedLine.begin() + 1; it != parsedLine.end(); ++it)
