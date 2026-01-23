@@ -98,10 +98,6 @@ int main()
           vector<char *> c_args;
           c_args.push_back(const_cast<char *>(firstWord.c_str()));
           vector<string> parsedLine = parseInput(input.substr(firstWord.size()+1), -1);
-          // for(int i=0;i<parsedLine.size();i++){
-          //   cout << parsedLine[i] << " ";
-          // }
-          cout << endl;
           if (parsedLine.size() >= 1)
           {
             for (auto it = parsedLine.begin(); it != parsedLine.end(); ++it)
@@ -120,6 +116,8 @@ int main()
           int status;
           waitpid(pid, &status, 0);
         }
+      }else{
+        cout << firstWord << ": command not found\n";
       }
     }
   }
