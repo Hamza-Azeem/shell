@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include "headers/parser.h"
+#include "headers/files.h"
 
 using namespace std;
 
@@ -78,6 +79,9 @@ int main()
       {
         cout << parsedLine[0] << ": not found\n";
       }
+    }
+    else if(firstWord == "pwd"){
+      cout << getCurrnetWorkingDirectory() << "\n";
     }
     else if (firstWord == "exit")
     {

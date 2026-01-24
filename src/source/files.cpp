@@ -1,5 +1,5 @@
 #include <filesystem>
-
+#include<iostream>
 
 #include<string>
 namespace fs = std::filesystem;
@@ -24,4 +24,8 @@ string getFilePath(string driectory, string filename)
         }
     }
     return "";
+}
+
+string getCurrnetWorkingDirectory(){
+    return fs::current_path();
 }
