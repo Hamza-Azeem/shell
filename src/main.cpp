@@ -62,7 +62,8 @@ int main()
     if (firstWord == "echo")
     {
       vector<string> parsedLine = parseInput(input.substr(firstWord.size() + 1), 1);
-      for(int i=0;i<parsedLine.size();i++){
+      for (int i = 0; i < parsedLine.size(); i++)
+      {
         cout << parsedLine[i] << " ";
       }
       cout << "\n";
@@ -80,8 +81,22 @@ int main()
         cout << parsedLine[0] << ": not found\n";
       }
     }
-    else if(firstWord == "pwd"){
+    else if (firstWord == "pwd")
+    {
       cout << getCurrnetWorkingDirectory() << "\n";
+    }
+    else if (firstWord == "cd")
+    {
+      vector<string> parsedLine = parseInput(input.substr(firstWord.size() + 1), -1);
+      if (parsedLine[0][0] == '/')
+      {
+        // refactor to its own function
+        int code = cdToAbsolutePath(parsedLine[0]);
+        if (code == 0)
+        {
+          cout << "cd: " << parsedLine[0] << ": No such file or directory\n";
+        }
+      }
     }
     else if (firstWord == "exit")
     {
@@ -101,7 +116,7 @@ int main()
         {
           vector<char *> c_args;
           c_args.push_back(const_cast<char *>(firstWord.c_str()));
-          vector<string> parsedLine = parseInput(input.substr(firstWord.size()+1), -1);
+          vector<string> parsedLine = parseInput(input.substr(firstWord.size() + 1), -1);
           if (parsedLine.size() >= 1)
           {
             for (auto it = parsedLine.begin(); it != parsedLine.end(); ++it)
@@ -120,7 +135,9 @@ int main()
           int status;
           waitpid(pid, &status, 0);
         }
-      }else{
+      }
+      else
+      {
         cout << firstWord << ": command not found\n";
       }
     }

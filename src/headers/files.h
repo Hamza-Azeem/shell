@@ -8,5 +8,6 @@ using namespace std;
 
 string getFilePath(string driectory, string filename);
 string getCurrnetWorkingDirectory();
+int cdToAbsolutePath(string absPath);
 
 #endif

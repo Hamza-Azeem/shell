@@ -29,3 +29,12 @@ string getFilePath(string driectory, string filename)
 string getCurrnetWorkingDirectory(){
     return fs::current_path();
 }
+
+int cdToAbsolutePath(string absPath){
+    if(!fs::is_directory(absPath)){
+        return 0;
+    }
+    
+    fs::current_path(absPath);
+    return 1;
+}
