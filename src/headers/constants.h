@@ -8,7 +8,8 @@ using namespace std;
 const set<string> BUILTIN_COMMANDS = {
     "echo",
     "exit",
-    "type"
+    "type",
+    "pwd"
 };
 
 
